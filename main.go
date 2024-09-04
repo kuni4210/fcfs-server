@@ -1,17 +1,22 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"fcfs-server/app"
+	"fcfs-server/config"
+	"os"
+
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	r := gin.Default()
+	cfg := &config.Config{
+		// Server: struct{ Address string }{Address: ":8080"},
+	}
+	log := &logrus.Logger{}
+	app := app.NewApp(log, cfg)
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
-	r.Run() // 8080 port
+	if err := app.Run(); err != nil {
+		log.Errorf("App error: %v", err)
+		os.Exit(1)
+	}
 }
