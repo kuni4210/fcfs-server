@@ -39,7 +39,7 @@ func NewApp(log *logrus.Logger, cfg *config.Config) *App {
 		cfg:    cfg,
 		router: router,
 		httpServer: &http.Server{
-			Addr:    ":8080",
+			Addr:    ":" + cfg.Server.Port,
 			Handler: router,
 		},
 
