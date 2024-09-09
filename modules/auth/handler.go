@@ -19,10 +19,7 @@ func NewAuthHandler(logger *logrus.Logger, router *gin.Engine) *AuthHandler {
 	return handler
 }
 
-func (h *AuthHandler) initRoutes() {
-	authGroup := h.router.Group("/auth")
-	{
-		authGroup.POST("/login", h.LoginHandler)
-		// 추가
-	}
+func (h *AuthHandler) LoginHandler(c *gin.Context) {
+	h.log.Infof("login")
+	c.JSON(200, gin.H{"message": "success"})
 }

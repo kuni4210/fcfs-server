@@ -3,8 +3,8 @@ package app
 import (
 	"context"
 	"fcfs-server/config"
-	"fcfs-server/module/auth"
-	"fcfs-server/module/ticket"
+	"fcfs-server/modules/auth"
+	"fcfs-server/modules/ticket"
 	"net/http"
 	"os"
 	"os/signal"

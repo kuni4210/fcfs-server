@@ -19,10 +19,7 @@ func NewTicketHandler(logger *logrus.Logger, router *gin.Engine) *TicketHandler 
 	return handler
 }
 
-func (h *TicketHandler) initRoutes() {
-	ticketGroup := h.router.Group("/ticket")
-	{
-		ticketGroup.POST("/book", h.BookTicketHandler)
-		// 추가
-	}
+func (h *TicketHandler) BookTicketHandler(c *gin.Context) {
+	h.log.Infof("book ticket")
+	c.JSON(200, gin.H{"message": "success"})
 }
