@@ -1,8 +1,6 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 type Ticket struct {
 	ID        int       `json:"id" db:"id"`                 // 티켓 ID
