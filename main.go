@@ -16,8 +16,12 @@ func main() {
 		fmt.Printf("could not load config: %v\n", err)
 	}
 
-	application := app.NewApp(log, cfg)
-	if err := application.Run(); err != nil {
+	application, err := app.NewApp(log, cfg)
+	if err != nil {
+		fmt.Printf("App error: %v\n", err)
+		os.Exit(1)
+	}
+	if err = application.Run(); err != nil {
 		fmt.Printf("App error: %v\n", err)
 		os.Exit(1)
 	}

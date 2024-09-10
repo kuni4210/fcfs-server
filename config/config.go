@@ -18,7 +18,7 @@ type PostgresConfig struct {
 	Port     int
 	User     string
 	Password string
-	Name     string
+	DbName   string
 }
 
 func LoadConfig() (*Config, error) {
