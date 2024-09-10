@@ -25,8 +25,8 @@ type App struct {
 	httpServer *http.Server
 	postgres   *sql.DB
 
-	authHandler   *auth.AuthHandler
-	ticketHandler *ticket.TicketHandler
+	authController *auth.AuthController
+	ticketHandler  *ticket.TicketController
 }
 
 func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
@@ -43,8 +43,8 @@ func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
 
 	// handlers 연결
 	router := gin.Default()
-	authHandler := auth.NewAuthHandler(log, router)
-	ticketHandler := ticket.NewTicketHandler(log, router)
+	authController := auth.NewAuthController(log, router)
+	TicketController := ticket.NewTicketController(log, router)
 
 	// return
 	return &App{
@@ -57,8 +57,8 @@ func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
 		},
 		postgres: postgres,
 
-		authHandler:   authHandler,
-		ticketHandler: ticketHandler,
+		authController: authController,
+		ticketHandler:  TicketController,
 	}, nil
 }
 

@@ -5,13 +5,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type AuthHandler struct {
+type AuthController struct {
 	log    *logrus.Logger
 	router *gin.Engine
 }
 
-func NewAuthHandler(logger *logrus.Logger, router *gin.Engine) *AuthHandler {
-	handler := &AuthHandler{
+func NewAuthController(logger *logrus.Logger, router *gin.Engine) *AuthController {
+	handler := &AuthController{
 		log:    logger,
 		router: router,
 	}
@@ -19,7 +19,7 @@ func NewAuthHandler(logger *logrus.Logger, router *gin.Engine) *AuthHandler {
 	return handler
 }
 
-func (h *AuthHandler) LoginHandler(c *gin.Context) {
+func (h *AuthController) LoginController(c *gin.Context) {
 	h.log.Infof("login")
 	c.JSON(200, gin.H{"message": "success"})
 }

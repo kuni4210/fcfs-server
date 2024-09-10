@@ -1,9 +1,9 @@
 package ticket
 
-func (h *TicketHandler) initRoutes() {
+func (h *TicketController) initRoutes() {
 	ticketGroup := h.router.Group("/ticket")
 	{
-		ticketGroup.POST("/book", h.BookTicketHandler)
+		ticketGroup.POST("/book", h.BookTicketController)
 		// 추가
 	}
 }
