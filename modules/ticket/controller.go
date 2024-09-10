@@ -6,17 +6,19 @@ import (
 )
 
 type TicketController struct {
-	log    *logrus.Logger
-	router *gin.Engine
+	log           *logrus.Logger
+	router        *gin.Engine
+	ticketService *TicketService
 }
 
-func NewTicketController(logger *logrus.Logger, router *gin.Engine) *TicketController {
-	handler := &TicketController{
-		log:    logger,
-		router: router,
+func NewTicketController(logger *logrus.Logger, router *gin.Engine, ticketService *TicketService) *TicketController {
+	controller := &TicketController{
+		log:           logger,
+		router:        router,
+		ticketService: ticketService,
 	}
-	handler.initRoutes()
-	return handler
+	controller.initRoutes()
+	return controller
 }
 
 func (h *TicketController) BookTicketController(c *gin.Context) {

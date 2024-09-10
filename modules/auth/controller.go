@@ -6,17 +6,19 @@ import (
 )
 
 type AuthController struct {
-	log    *logrus.Logger
-	router *gin.Engine
+	log         *logrus.Logger
+	router      *gin.Engine
+	authService *AuthService
 }
 
-func NewAuthController(logger *logrus.Logger, router *gin.Engine) *AuthController {
-	handler := &AuthController{
-		log:    logger,
-		router: router,
+func NewAuthController(logger *logrus.Logger, router *gin.Engine, authService *AuthService) *AuthController {
+	controller := &AuthController{
+		log:         logger,
+		router:      router,
+		authService: authService,
 	}
-	handler.initRoutes()
-	return handler
+	controller.initRoutes()
+	return controller
 }
 
 func (h *AuthController) LoginController(c *gin.Context) {

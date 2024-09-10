@@ -42,9 +42,12 @@ func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
 	}
 
 	// handlers 연결
+	authService := auth.NewAuthService(postgres, "secret_key")
+	ticketService := ticket.NewTicketService(postgres)
+
 	router := gin.Default()
-	authController := auth.NewAuthController(log, router)
-	TicketController := ticket.NewTicketController(log, router)
+	authController := auth.NewAuthController(log, router, authService)
+	TicketController := ticket.NewTicketController(log, router, ticketService)
 
 	// return
 	return &App{
