@@ -24,13 +24,10 @@ type App struct {
 	router     *gin.Engine
 	httpServer *http.Server
 	postgres   *sql.DB
-
-	authController *auth.AuthController
-	ticketHandler  *ticket.TicketController
 }
 
 func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
-	// postgres 연결
+	// postgres db 연결
 	connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.Postgres.Host, cfg.Postgres.Port, cfg.Postgres.User, cfg.Postgres.Password, cfg.Postgres.DbName)
 	postgres, err := sql.Open("postgres", connStr)
@@ -41,13 +38,8 @@ func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	// handlers 연결
-	authService := auth.NewAuthService(postgres, "secret_key")
-	ticketService := ticket.NewTicketService(postgres)
-
+	// router 초기화
 	router := gin.Default()
-	authController := auth.NewAuthController(log, router, authService)
-	TicketController := ticket.NewTicketController(log, router, ticketService)
 
 	// return
 	return &App{
@@ -59,9 +51,6 @@ func NewApp(log *logrus.Logger, cfg *config.Config) (*App, error) {
 			Handler: router,
 		},
 		postgres: postgres,
-
-		authController: authController,
-		ticketHandler:  TicketController,
 	}, nil
 }
 
@@ -69,6 +58,14 @@ func (a *App) Run() error {
 	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	a.log.Infof("Starting server on %s", "8080")
+
+	// Service 초기화
+	authService := auth.NewAuthService(a.postgres, a.cfg)
+	ticketService := ticket.NewTicketService(a.postgres, a.cfg)
+
+	// Controller 초기화
+	_ = auth.NewAuthController(a.log, a.router, authService)
+	_ = ticket.NewTicketController(a.log, a.router, ticketService)
 
 	go func() {
 		if err := a.httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {

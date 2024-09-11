@@ -1,9 +1,9 @@
 package auth
 
-func (h *AuthController) initRoutes() {
-	authGroup := h.router.Group("/auth")
+func (ac *AuthController) initRoutes() {
+	authGroup := ac.router.Group("/auth")
 	{
-		authGroup.POST("/login", h.LoginController)
+		authGroup.POST("/login", ac.LoginController)
 		// 추가
 	}
 }

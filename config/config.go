@@ -7,6 +7,7 @@ import (
 type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
+	Jwt      JwtConfig
 }
 
 type ServerConfig struct {
@@ -19,6 +20,10 @@ type PostgresConfig struct {
 	User     string
 	Password string
 	DbName   string
+}
+
+type JwtConfig struct {
+	SecretKey string `json:"secret_key"`
 }
 
 func LoadConfig() (*Config, error) {

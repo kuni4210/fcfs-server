@@ -21,7 +21,7 @@ func NewTicketController(logger *logrus.Logger, router *gin.Engine, ticketServic
 	return controller
 }
 
-func (h *TicketController) BookTicketController(c *gin.Context) {
-	h.log.Infof("book ticket")
+func (tc *TicketController) BookTicketController(c *gin.Context) {
+	tc.log.Infof("book ticket")
 	c.JSON(200, gin.H{"message": "success"})
 }
