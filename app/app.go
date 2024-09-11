@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fcfs-server/config"
+	"fcfs-server/middlewares"
 	"fcfs-server/modules/auth"
 	"fcfs-server/modules/ticket"
 	"fmt"
@@ -59,13 +60,17 @@ func (a *App) Run() error {
 	defer cancel()
 	a.log.Infof("Starting server on %s", "8080")
 
+	// Middleware 초기화
+	middleware := middlewares.NewMiddleware(a.postgres, a.cfg)
+	// a.router.Use(middleware.JWT)
+
 	// Service 초기화
 	authService := auth.NewAuthService(a.postgres, a.cfg)
 	ticketService := ticket.NewTicketService(a.postgres, a.cfg)
 
 	// Controller 초기화
-	_ = auth.NewAuthController(a.log, a.router, authService)
-	_ = ticket.NewTicketController(a.log, a.router, ticketService)
+	_ = auth.NewAuthController(a.log, a.router, authService, middleware)
+	_ = ticket.NewTicketController(a.log, a.router, ticketService, middleware)
 
 	go func() {
 		if err := a.httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {

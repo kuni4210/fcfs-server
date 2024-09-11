@@ -11,6 +11,7 @@ type Config struct {
 }
 
 type ServerConfig struct {
+	Mode string
 	Port string
 }
 

@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"fcfs-server/middlewares"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -9,13 +11,15 @@ type AuthController struct {
 	log         *logrus.Logger
 	router      *gin.Engine
 	authService *AuthService
+	middleware  *middlewares.Middleware
 }
 
-func NewAuthController(logger *logrus.Logger, router *gin.Engine, authService *AuthService) *AuthController {
+func NewAuthController(logger *logrus.Logger, router *gin.Engine, authService *AuthService, middleware *middlewares.Middleware) *AuthController {
 	controller := &AuthController{
 		log:         logger,
 		router:      router,
 		authService: authService,
+		middleware:  middleware,
 	}
 	controller.initRoutes()
 	return controller
@@ -47,6 +51,5 @@ func NewAuthController(logger *logrus.Logger, router *gin.Engine, authService *A
 
 func (ac *AuthController) LoginController(c *gin.Context) {
 	ac.log.Infof("login")
-
 	c.JSON(200, gin.H{"token": "token"})
 }
